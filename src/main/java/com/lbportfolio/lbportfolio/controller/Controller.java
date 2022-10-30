@@ -29,18 +29,18 @@ public class Controller {
     public void agregarPersona (@RequestBody Persona pers) {
         persoServ.crearPersona(pers);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping ("/ver/personas")
     public List<Persona> verPersonas() {
         return persoServ.verPersonas();
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/borrarPersona/{id}")
     public void borrarPersona(@PathVariable Long id) {
         persoServ.borrarPersona(id);
     }
 
-    
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping ("/actualizar/persona")
     public void actualizarPersona (@RequestBody Persona pers) {
         persoServ.actualizarPersona(pers);

@@ -48,15 +48,15 @@ public class AuthController {
 
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if(bindingResult.hasErrors())
             return new ResponseEntity(new Mensaje ("Campos mal cargados o email inválido"), HttpStatus.BAD_REQUEST);
-        }
-        if(usuarioService.existByNombreUSuario(nuevoUsuario.getNombreUsuario())){
+        
+        if(usuarioService.existByNombreUSuario(nuevoUsuario.getNombreUsuario()))
             return new ResponseEntity(new Mensaje("Este nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
-        }
-        if(usuarioService.existByEmail(nuevoUsuario.getEmail())){
+        
+        if(usuarioService.existByEmail(nuevoUsuario.getEmail()))
             return new ResponseEntity(new Mensaje("El mail ingresado ya esta siendo usado"), HttpStatus.BAD_REQUEST);
-        }
+        
         Usuario usuario = new Usuario(nuevoUsuario.getNombre(), nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(), passwordEncoder.encode(nuevoUsuario.getPassword()));
 
         Set<Rol> roles = new HashSet<>();
@@ -71,11 +71,12 @@ public class AuthController {
         return new ResponseEntity(new Mensaje("Usuario creado exitosamente"),HttpStatus.CREATED);
     }
 
-    @PostMapping ("/login")
+    @PostMapping ("/iniciar-sesion")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
-        if(bindingResult.hasErrors()) {
+        if(bindingResult.hasErrors()) 
             return new ResponseEntity(new Mensaje("Campos mal cargados"), HttpStatus.BAD_REQUEST);
-        }
+        
+        try {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -87,6 +88,10 @@ public class AuthController {
         JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
 
         return new ResponseEntity(jwtDto, HttpStatus.OK);
+
+        } catch(Exception e){
+            return new ResponseEntity(new Mensaje("No Authorized"), HttpStatus.UNAUTHORIZED);
+        }
 
     }
 }

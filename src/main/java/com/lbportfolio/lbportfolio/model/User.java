@@ -1,4 +1,4 @@
-package com.bezkoder.springjwt.models;
+package com.lbportfolio.lbportfolio.model;
 
 import java.util.HashSet;
 import java.util.Set;

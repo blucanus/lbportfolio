@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lbportfolio.lbportfolio.model.Acercade;
 import com.lbportfolio.lbportfolio.service.IAcercadeService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "https://lbportfoliofrontend.web.app/", maxAge = 3600)
 @RestController
 public class AcercadeController {
 

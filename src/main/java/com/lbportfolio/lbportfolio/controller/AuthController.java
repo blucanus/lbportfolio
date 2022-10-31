@@ -32,7 +32,7 @@ import com.lbportfolio.lbportfolio.repository.UserRepository;
 import com.lbportfolio.lbportfolio.security.jwt.JwtUtils;
 import com.lbportfolio.lbportfolio.security.services.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "https://lbportfoliofrontend.web.app/", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lbportfolio.lbportfolio.model.Acercade;
 import com.lbportfolio.lbportfolio.service.IAcercadeService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "https://lbportfoliofrontend.web.app/", maxAge = 3600)
 @RestController
 public class AcercadeController {
 
@@ -24,6 +27,7 @@ public class AcercadeController {
     public void agregarAcerca (@RequestBody Acercade bio) {
         acercaServ.crearAcercade(bio);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping ("/ver/acercade")
     public List<Acercade> verAcercade() {
         return acercaServ.verAcercade();
